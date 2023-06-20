@@ -1,21 +1,25 @@
 import pageModel from "../models/page.model";
 import { v1 as uuidv1 } from 'uuid';
 import moment from "moment";
-import { GroupedCountResultItem, Op } from "sequelize";
+import { GroupedCountResultItem, Op, Sequelize } from "sequelize";
 
 const createPageService = async (query: any = {}) => {
 
-  let date: string = moment().format('YYYY-MM-DD hh:mm:ss.SSS');
+  let date: string = moment().format('YYYY-MM-DDTHH:mm:ss');
+
+  let id: string = uuidv1();
   
   try {
+
     const page = {
-      id_page: uuidv1(),
-      id_version_page: uuidv1(),
+      id_page: id,
       title_page: query.body.title_page,
-      contents: query.body.contents,
+      contents_user: query.body.contents_user,
+      contents_html: query.body.contents_html,
       username: query.body.username,
       creation_date: date,
       modification_date: date,
+      is_solved: query.body.is_solved
     }
 
     const newPage = await pageModel.Page.create(page);
@@ -24,53 +28,63 @@ const createPageService = async (query: any = {}) => {
 
     
   }
-  catch (error:any) {
+  catch (error: any) {
+    
     throw Error(`Error creating a Page ${error.message}`);
   
   }
   
 }
 
-const createVersionPageService = async (query: any = {}) => {
+const modifyPageService = async (query: any = {}) => {
 
   try {
 
-    const countPage:number = await pageModel.Page.count({
-      where: {
-        id_page: query.body.id_page
-      }
-    });
-
-    if (countPage < 1) {
-       throw Error(`Debe existir la página para poder crear una versión`);
-    }
-
     const page = {
       id_page: query.body.id_page,
-      id_version_page: uuidv1(),
       title_page: query.body.title_page,
-      contents: query.body.contents,
+      contents_user: query.body.contents_user,
+      contents_html: query.body.contents_html,
       username: query.body.username,
       creation_date: query.body.creation_date,
-      modification_date: moment().format('YYYY-MM-DD hh:mm:ss.SSS'),
+      modification_date: moment().format('YYYY-MM-DDTHH:mm:ss'),
+      is_solved: query.body.is_solved
     }
 
-    
+    await pageModel.Page.update(
+      page,
+      {
+        where: {
+          id_page: query.body.id_page
+        }
+      }
+      
+    );
 
-    
-    const newPageVersion = await pageModel.Page.create(page);
+    const pageModify = await pageModel.Page.findOne({
+      where: {
+        id_page: query.body.id_page
+      },
+    });
 
-    return newPageVersion;
 
- 
-    
-    
+
+    return pageModify;
   }
-  catch (error:any) {
-    throw Error(`Error creating version Page: ${error.message}`);
+
+  catch (error: any) {
+    console.log(error);
+    throw Error(`Error modifying a Page ${error.message}`);
+  
   }
 
+  
+
+
+  
 }
+
+
 
 const getPagesForPageService = async (page: any = 1, limit: any = 10) => {
 
@@ -92,26 +106,28 @@ const getPagesForPageService = async (page: any = 1, limit: any = 10) => {
     const pageForPage = await pageModel.Page.findAll({
       attributes: [
         'id_page',
-        'id_version_page',
         'title_page',
-        'contents',
+        'contents_user',
+        'contents_html',
         'username',
         'creation_date',
-        'modification_date'
+        'modification_date',
+        'is_solved'
       ],
       limit: limit,
       offset: (page * limit) - limit,
       order: [
-        ['id_version_page', 'ASC'],
+        ['creation_date', 'DESC'],
       ],
       group: [
         'id_page',
-        'id_version_page',
         'title_page',
-        'contents',
+        'contents_user',
+        'contents_html',
         'username',
         'creation_date',
-        'modification_date'
+        'modification_date',
+        'is_solved'
       ]
     });
     
@@ -131,8 +147,79 @@ const getPagesForPageService = async (page: any = 1, limit: any = 10) => {
 
 }
 
+const getSearchPageService = async (search: string = "") => {
+
+  try {
+
+    const pageForPage = await pageModel.Page.findAll({
+      order: [
+        ['creation_date', 'DESC'],
+      ],
+      where: {
+        [Op.or]: [
+          {
+            title_page: { [Op.like]: `%${search}%` }
+          },
+          {
+            contents_user: { [Op.like]: `%${search}%` }
+          },
+          {
+            contents_html: { [Op.like]: `%${search}%` }
+          },
+          {
+            username: { [Op.like]: `%${search}%` }
+          }
+
+        ]
+       
+      },  
+    });
+    
+    return pageForPage;
+      
+      
+  }
+  catch (error:any) {
+    throw Error(`Error get Pages: ${error.message}`);
+  }
+
+}
+
+
+const getAllPageService = async () => {
+
+  try {
+    const allPage = await pageModel.Page.findAll({
+      attributes: [
+        'id_page',
+        'title_page',
+        'contents_user',
+        'contents_html',
+        'username',
+        'creation_date',
+        'modification_date',
+        'is_solved'
+      ],
+      order: [
+        ["creation_date", "DESC"],
+      ]
+    });
+    return allPage;
+  }
+  catch (error:any) {
+    throw Error(`Error getting all Pages: ${error.message}`);
+  }
+
+}
+
+
+
+
 export default {
   createPageService,
+  modifyPageService,
   getPagesForPageService,
-  createVersionPageService
+  getSearchPageService,
+  getAllPageService
+  
 }

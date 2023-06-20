@@ -8,7 +8,7 @@ const createPageController = async (req: any, res: any) => {
     return res.status(200).json({
       status: 200,
       message: 'Página creada con exito',
-      usuario: pageResult
+      page: pageResult
     });
   }
   catch (error: any) {
@@ -20,14 +20,14 @@ const createPageController = async (req: any, res: any) => {
   
 }
 
-const createPageVersionController = async (req: any, res: any) => {
+const modifyPageController = async (req: any, res: any) => {
 
   try {
-    let pageResult = await pageService.createVersionPageService(req);
+    let pageResult = await pageService.modifyPageService(req);
     return res.status(200).json({
       status: 200,
-      message: 'Nueva versión de la página creada',
-      usuario: pageResult
+      message: 'Página modificada con exito',
+      page: pageResult
     });
   }
   catch (error: any) {
@@ -38,6 +38,7 @@ const createPageVersionController = async (req: any, res: any) => {
   }
   
 }
+
 
 const getPagesForPageController = async (req: any, res: any) => {
   
@@ -70,9 +71,57 @@ const getPagesForPageController = async (req: any, res: any) => {
 }
 
 
+const getSearchPageController = async (req: any, res: any) => {
+  
+  try {
+
+    let pageResult = await pageService.getSearchPageService(req.query.search);
+    
+    return res.status(200).json({
+      status: 200,
+      message: 'Resultado de la busqueda de las páginas',
+      pages: pageResult,
+      
+    });
+    
+  }
+
+  catch (error: any) {
+    return res.status(400).json({
+      status: 400,
+      message: error.message
+    });
+  }
+  
+}
+
+
+
+const getAllPagesController = async (req: any, res: any) => {
+
+  try {
+    let pageResult = await pageService.getAllPageService();
+    return res.status(200).json({
+      status: 200,
+      message: 'Todas las páginas obtenidas',
+      pages: pageResult
+    });
+  }
+  catch (error: any) {
+    return res.status(400).json({
+      status: 400,
+      message: error.message
+    });
+  }
+  
+}
+
+
 
 export default {
   createPageController,
+  modifyPageController,
   getPagesForPageController,
-  createPageVersionController
+  getSearchPageController,
+  getAllPagesController
 }

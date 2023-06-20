@@ -3,15 +3,16 @@ import sequelizeConnect from "../database/mssql";
 
 const Page = sequelizeConnect.sequelize.define("page", {
   id_page: {
-    type: DataTypes.STRING
-  },
-  id_version_page: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    unique: true
   },
   title_page: {
     type: DataTypes.STRING
   },
-  contents: {
+  contents_user: {
+    type: DataTypes.STRING
+  },
+  contents_html: {
     type: DataTypes.STRING
   },
   username: {
@@ -21,6 +22,9 @@ const Page = sequelizeConnect.sequelize.define("page", {
     type: DataTypes.STRING
   },
   modification_date: {
+    type: DataTypes.STRING
+  },
+  is_solved: {
     type: DataTypes.STRING
   }
 });
