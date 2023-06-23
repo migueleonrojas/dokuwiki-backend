@@ -1,6 +1,7 @@
 import express from 'express';
 import pageController from '../controllers/page.controller';
-import validationSchemaMiddleware from '../middleware/validationSchema.middleware';
+import validationBodySchemaMiddleware from '../middleware/validationBodySchema.middleware';
+import validationQuerySchemaMiddleware from '../middleware/validationQuerySchema.middleware';
 import pageValidators  from '../validators/page.validators';
 
 
@@ -11,26 +12,26 @@ const routerPage = express.Router();
 
 routerPage.post(
   '/create-page',
-  validationSchemaMiddleware.validateSchema(pageValidators.createPageValidation),
+  validationBodySchemaMiddleware.validateBodySchema(pageValidators.createPageValidation),
   pageController.createPageController
 );
 
 routerPage.put(
   '/modify-page',
-  validationSchemaMiddleware.validateSchema(pageValidators.modifyPageValidation),
+  validationBodySchemaMiddleware.validateBodySchema(pageValidators.modifyPageValidation),
   pageController.modifyPageController
 );
 
 
 routerPage.get(
   '/get-pages-for-page',
-  validationSchemaMiddleware.validateSchema(pageValidators.pageForPageValidation),
+  validationQuerySchemaMiddleware.validateQuerySchema(pageValidators.pageForPageValidation),
   pageController.getPagesForPageController
 );
 
 routerPage.get(
   '/search-page',
-  validationSchemaMiddleware.validateSchema(pageValidators.searchPageValidation),
+  validationQuerySchemaMiddleware.validateQuerySchema(pageValidators.searchPageValidation),
   pageController.getSearchPageController
 )
 
