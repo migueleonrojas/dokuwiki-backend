@@ -19,7 +19,8 @@ const createPageService = async (query: any = {}) => {
       username: query.body.username,
       creation_date: date,
       modification_date: date,
-      is_solved: query.body.is_solved
+      is_solved: query.body.is_solved,
+      type_of_page: query.body.type_of_page
     }
 
     const newPage = await pageModel.Page.create(page);
@@ -48,7 +49,8 @@ const modifyPageService = async (query: any = {}) => {
       username: query.body.username,
       creation_date: query.body.creation_date,
       modification_date: moment().format('YYYY-MM-DDTHH:mm:ss'),
-      is_solved: query.body.is_solved
+      is_solved: query.body.is_solved,
+      type_of_page: query.body.type_of_page
     }
 
     await pageModel.Page.update(
@@ -112,7 +114,8 @@ const getPagesForPageService = async (page: any = 1, limit: any = 10) => {
         'username',
         'creation_date',
         'modification_date',
-        'is_solved'
+        'is_solved',
+        'type_of_page'
       ],
       limit: limit,
       offset: (page * limit) - limit,
@@ -127,7 +130,8 @@ const getPagesForPageService = async (page: any = 1, limit: any = 10) => {
         'username',
         'creation_date',
         'modification_date',
-        'is_solved'
+        'is_solved',
+        'type_of_page'
       ]
     });
     
@@ -198,7 +202,8 @@ const getAllPageService = async () => {
         'username',
         'creation_date',
         'modification_date',
-        'is_solved'
+        'is_solved',
+        'type_of_page'
       ],
       order: [
         ["creation_date", "DESC"],

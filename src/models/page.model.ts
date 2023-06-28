@@ -26,6 +26,9 @@ const Page = sequelizeConnect.sequelize.define("page", {
   },
   is_solved: {
     type: DataTypes.STRING
+  },
+  type_of_page: {
+    type: DataTypes.STRING
   }
 });
 
