@@ -41,6 +41,12 @@ routerPage.get(
   pageController.getAllPagesController
 );
 
+routerPage.delete(
+  '/delete-page',
+  validationQuerySchemaMiddleware.validateQuerySchema(pageValidators.deletePageValidation),
+  pageController.deletePageController
+);
+
 
 
 export default { routerPage };

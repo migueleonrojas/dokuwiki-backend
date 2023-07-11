@@ -7,9 +7,9 @@ const createImageService = async (image: any) => {
 
   try {
     
-    const rootPathApp = path.resolve('./');
-
-    fs.appendFile(`${rootPathApp}/image/${image.name}`, image.data, () => {
+    const rootPathApp:string = path.join(path.resolve(__dirname, '../', 'images')).replace(/\\/g,'/');
+    
+    fs.appendFile(`${rootPathApp}/${image.name}`, image.data, () => {
       
     });
     

@@ -75,14 +75,38 @@ const modifyPageService = async (query: any = {}) => {
   }
 
   catch (error: any) {
-    console.log(error);
+    
     throw Error(`Error modifying a Page ${error.message}`);
   
   }
-
   
+}
+
+const deletePageService = async (id_page: string = "") => {
+
+  try {
+
+    const pageDelete = await pageModel.Page.findOne({
+      where: {
+        id_page: id_page
+      },
+    });
 
 
+    await pageModel.Page.destroy({
+      where: {
+        id_page: id_page
+      }
+    });
+
+    return pageDelete;
+  }
+
+  catch (error: any) {
+    
+    throw Error(`Error deleting a Page ${error.message}`);
+  
+  }
   
 }
 
@@ -162,6 +186,9 @@ const getSearchPageService = async (search: string = "") => {
       where: {
         [Op.or]: [
           {
+            id_page: {[Op.eq]: search}
+          },
+          {
             title_page: { [Op.like]: `%${search}%` }
           },
           {
@@ -225,6 +252,7 @@ export default {
   modifyPageService,
   getPagesForPageService,
   getSearchPageService,
-  getAllPageService
+  getAllPageService,
+  deletePageService
   
 }

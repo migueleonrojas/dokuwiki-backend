@@ -39,6 +39,25 @@ const modifyPageController = async (req: any, res: any) => {
   
 }
 
+const deletePageController = async (req: any, res: any) => {
+
+  try {
+    let pageResult = await pageService.deletePageService(req.query.id_page);
+    return res.status(200).json({
+      status: 200,
+      message: 'Página eliminada con exito',
+      page: pageResult
+    });
+  }
+  catch (error: any) {
+    return res.status(400).json({
+      status: 400,
+      message: error.message
+    });
+  }
+  
+}
+
 
 const getPagesForPageController = async (req: any, res: any) => {
   
@@ -118,10 +137,13 @@ const getAllPagesController = async (req: any, res: any) => {
 
 
 
+
+
 export default {
   createPageController,
   modifyPageController,
   getPagesForPageController,
   getSearchPageController,
-  getAllPagesController
+  getAllPagesController,
+  deletePageController
 }

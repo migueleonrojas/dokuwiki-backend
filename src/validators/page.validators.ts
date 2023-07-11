@@ -7,17 +7,17 @@ const createPageValidation = Joi.object().keys({
     "string.min": "El id de la página debe tener 36 letras como mínimo.",
     "string.max": "El id de la página debe tener 36 letras como máximo.",
   }),
-  title_page: Joi.string().max(30).required().messages({
+  title_page: Joi.string().max(50).required().messages({
     "string.base": "El titulo de la página debe ser un texto.",
     "string.max": "El titulo de la página debe tener 30 letras como máximo",
     "any.required": "El titulo de la página debe indicarse",
   }),
-  contents_user: Joi.string().max(5000).required().messages({
+  contents_user: Joi.string().max(8000).required().messages({
     "string.base": "El contenido que escribio el usuario debe ser un texto.",
     "string.max": "El contenido que escribio el usuario debe tener 5000 caracteres como máximo",
     "any.required": "El contenido que escribio el usuario debe indicarse",
   }),
-  contents_html: Joi.string().max(5000).required().messages({
+  contents_html: Joi.string().max(8000).required().messages({
     "string.base": "El contenido del usuario pasado a html debe ser un texto.",
     "string.max": "El contenido del usuario pasado a html debe tener 5000 caracteres como máximo",
     "any.required": "El contenido del usuario pasado a html debe indicarse",
@@ -55,17 +55,17 @@ const modifyPageValidation = Joi.object().keys({
     "string.max": "El id de la página debe tener 36 caracteres como máximo",
     "any.required": "El id de la página debe indicarse",
   }),
-  title_page: Joi.string().max(30).required().messages({
+  title_page: Joi.string().max(50).required().messages({
     "any.base": "El titulo de la página debe ser un texto.",
     "string.max": "El titulo de la página debe tener 30 caracteres como máximo",
     "any.required": "El titulo de la página debe indicarse",
   }),
-  contents_user: Joi.string().max(5000).required().messages({
+  contents_user: Joi.string().max(8000).required().messages({
     "any.base": "El contenido que escribio el usuario debe ser un texto.",
     "string.max": "El contenido que escribio el usuario debe tener 5000 caracteres como máximo",
     "any.required": "El contenido que escribio el usuario debe indicarse",
   }),
-  contents_html: Joi.string().max(5000).required().messages({
+  contents_html: Joi.string().max(8000).required().messages({
     "any.base": "El contenido del usuario pasado a html debe ser un texto.",
     "string.max": "El contenido del usuario pasado a html debe tener 5000 caracteres como máximo",
     "any.required": "El contenido del usuario pasado a html debe indicarse",
@@ -119,6 +119,15 @@ const searchPageValidation = Joi.object().keys({
   })
 });
 
+const deletePageValidation = Joi.object().keys({
+  id_page: Joi.string().min(36).max(36).required().messages({
+    "any.base": "El id de la página debe ser un texto.",
+    "string.min": "El id de la página debe tener 36 caracteres como mínimo",
+    "string.max": "El id de la página debe tener 36 caracteres como máximo",
+    "any.required": "El id de la página debe indicarse",
+  }),
+});
+
 
 
 
@@ -126,5 +135,6 @@ export default {
   createPageValidation,
   modifyPageValidation,
   pageForPageValidation,
-  searchPageValidation
+  searchPageValidation,
+  deletePageValidation
 }

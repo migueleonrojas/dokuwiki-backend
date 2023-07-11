@@ -3,14 +3,16 @@ import cors from "cors";
 import routes from './routes/index.route';
 import sequelizeConnect from './database/mssql';
 import fileUpload from 'express-fileupload';
+import path from 'path';
+
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 app.use(cors({
-  origin: "http://localhost:4200",
+  origin: "*",
 }));
-app.use(express.static("image"));
+app.use(express.static(path.join(path.resolve(__dirname, 'images')).replace(/\\/g,'/')));
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

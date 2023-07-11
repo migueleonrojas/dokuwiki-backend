@@ -4,6 +4,7 @@
 /dist
 /tmp
 /image
+./images
 /out-tsc
 /bazel-out
 
