@@ -19,8 +19,8 @@ const createPageService = async (query: any = {}) => {
       username: query.body.username,
       creation_date: date,
       modification_date: date,
-      is_solved: query.body.is_solved,
-      type_of_page: query.body.type_of_page
+      type_of_page: query.body.type_of_page,
+      category: query.body.category
     }
 
     const newPage = await pageModel.Page.create(page);
@@ -31,7 +31,7 @@ const createPageService = async (query: any = {}) => {
   }
   catch (error: any) {
     
-    throw Error(`Error creating a Page ${error.message}`);
+    throw Error(`Error creando la Página: ${error.message}`);
   
   }
   
@@ -49,8 +49,8 @@ const modifyPageService = async (query: any = {}) => {
       username: query.body.username,
       creation_date: query.body.creation_date,
       modification_date: moment().format('YYYY-MM-DDTHH:mm:ss'),
-      is_solved: query.body.is_solved,
-      type_of_page: query.body.type_of_page
+      type_of_page: query.body.type_of_page,
+      category: query.body.category
     }
 
     await pageModel.Page.update(
@@ -76,7 +76,7 @@ const modifyPageService = async (query: any = {}) => {
 
   catch (error: any) {
     
-    throw Error(`Error modifying a Page ${error.message}`);
+    throw Error(`Error modificando la Página: ${error.message}`);
   
   }
   
@@ -104,7 +104,7 @@ const deletePageService = async (id_page: string = "") => {
 
   catch (error: any) {
     
-    throw Error(`Error deleting a Page ${error.message}`);
+    throw Error(`Error borrando la Página: ${error.message}`);
   
   }
   
@@ -138,8 +138,8 @@ const getPagesForPageService = async (page: any = 1, limit: any = 10) => {
         'username',
         'creation_date',
         'modification_date',
-        'is_solved',
-        'type_of_page'
+        'type_of_page',
+        'category'
       ],
       limit: limit,
       offset: (page * limit) - limit,
@@ -154,8 +154,8 @@ const getPagesForPageService = async (page: any = 1, limit: any = 10) => {
         'username',
         'creation_date',
         'modification_date',
-        'is_solved',
-        'type_of_page'
+        'type_of_page',
+        'category'
       ]
     });
     
@@ -170,7 +170,7 @@ const getPagesForPageService = async (page: any = 1, limit: any = 10) => {
     };
   }
   catch (error:any) {
-    throw Error(`Error get Pages: ${error.message}`);
+    throw Error(`Error obteniendo las Páginas: ${error.message}`);
   }
 
 }
@@ -179,7 +179,7 @@ const getSearchPageService = async (search: string = "") => {
 
   try {
 
-    const pageForPage = await pageModel.Page.findAll({
+    const pagesForSearch = await pageModel.Page.findAll({
       order: [
         ['creation_date', 'DESC'],
       ],
@@ -199,6 +199,9 @@ const getSearchPageService = async (search: string = "") => {
           },
           {
             username: { [Op.like]: `%${search}%` }
+          },
+          {
+           category: { [Op.like]: `%${search}%`}
           }
 
         ]
@@ -206,14 +209,37 @@ const getSearchPageService = async (search: string = "") => {
       },  
     });
     
-    return pageForPage;
+    return pagesForSearch;
       
       
   }
   catch (error:any) {
-    throw Error(`Error get Pages: ${error.message}`);
+    throw Error(`Error obteniendo las Páginas: ${error.message}`);
   }
 
+}
+
+const getPagesByCategoryService = async (category: string = "") => {
+
+ try {
+
+  const pagesByCategory = await pageModel.Page.findAll({
+   order:[
+    ['category', 'DESC'],
+   ],
+   where: {
+    category:category
+   }
+  });
+
+  return pagesByCategory;
+
+ }
+
+ catch(error:any){
+  throw Error(`Error obteniendo las Páginas: ${error.message}`);
+
+ }
 }
 
 
@@ -229,8 +255,8 @@ const getAllPageService = async () => {
         'username',
         'creation_date',
         'modification_date',
-        'is_solved',
-        'type_of_page'
+        'type_of_page',
+        'category'
       ],
       order: [
         ["creation_date", "DESC"],
@@ -239,7 +265,7 @@ const getAllPageService = async () => {
     return allPage;
   }
   catch (error:any) {
-    throw Error(`Error getting all Pages: ${error.message}`);
+    throw Error(`Error obteniendo todas las Página: ${error.message}`);
   }
 
 }
@@ -253,6 +279,7 @@ export default {
   getPagesForPageService,
   getSearchPageService,
   getAllPageService,
-  deletePageService
+  deletePageService,
+  getPagesByCategoryService
   
 }
