@@ -126,7 +126,7 @@ const getAllCategoriesService = async () => {
     'name_category'
    ],
    order:[
-    ["name_category", "DESC"],
+    ["name_category", "ASC"],
    ]
   });
 
