@@ -186,7 +186,7 @@ const getSearchPageService = async (search: string = "") => {
       where: {
         [Op.or]: [
           {
-            id_page: {[Op.like]: search}
+            id_page: {[Op.like]: `%${search}%`}
           },
           {
             title_page: { [Op.like]: `%${search}%` }
