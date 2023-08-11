@@ -179,7 +179,7 @@ const getPageByIdService = async (id_page: string = "") => {
  
   try{
 
-    const pageById = await pageModel.Page.findAll({
+    const pageById = await pageModel.Page.findOne({
       where: {
         id_page:id_page
       }
