@@ -89,6 +89,30 @@ const getPagesForPageController = async (req: any, res: any) => {
 
 }
 
+const getPageByIdController = async (req:any, res: any) => {
+
+
+  try{
+
+    let pageResult = await pageService.getPageByIdService(req.query.id_page);
+
+    return res.status(200).json({
+      status: 200,
+      message: 'Resultado de la página',
+      page: pageResult
+    });
+
+  }
+  catch(error: any) {
+    return res.status(400).json({
+      status: 400,
+      message: error.message
+    });
+  }
+
+
+}
+
 
 const getSearchPageController = async (req: any, res: any) => {
   
@@ -169,5 +193,6 @@ export default {
   getSearchPageController,
   getAllPagesController,
   deletePageController,
-  getPagesByCategoryController
+  getPagesByCategoryController,
+  getPageByIdController
 }

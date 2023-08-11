@@ -36,6 +36,12 @@ routerPage.get(
 )
 
 routerPage.get(
+  '/get-by-id',
+  validationQuerySchemaMiddleware.validateQuerySchema(pageValidators.getByIdPageValidation),
+  pageController.getPageByIdController
+)
+
+routerPage.get(
  '/search-page-by-category',
  validationQuerySchemaMiddleware.validateQuerySchema(pageValidators.searchByCategoryValidation),
  pageController.getPagesByCategoryController

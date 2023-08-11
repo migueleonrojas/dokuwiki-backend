@@ -175,6 +175,25 @@ const getPagesForPageService = async (page: any = 1, limit: any = 10) => {
 
 }
 
+const getPageByIdService = async (id_page: string = "") => {
+ 
+  try{
+
+    const pageById = await pageModel.Page.findAll({
+      where: {
+        id_page:id_page
+      }
+    });
+
+    return pageById;
+
+  }
+  catch (error:any) {
+    throw Error(`Error obteniendo la Página: ${error.message}`);
+  }
+
+}
+
 const getSearchPageService = async (search: string = "") => {
 
   try {
@@ -283,6 +302,7 @@ export default {
   getSearchPageService,
   getAllPageService,
   deletePageService,
-  getPagesByCategoryService
+  getPagesByCategoryService,
+  getPageByIdService
   
 }

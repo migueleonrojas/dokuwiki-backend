@@ -142,6 +142,16 @@ const searchPageValidation = Joi.object().keys({
   })
 });
 
+
+const getByIdPageValidation = Joi.object().keys({
+  id_page: Joi.string().min(36).max(36).required().messages({
+    "any.base": "El id de la página debe ser un texto.",
+    "string.min": "El id de la página debe tener 36 caracteres como mínimo",
+    "string.max": "El id de la página debe tener 36 caracteres como máximo",
+    "any.required": "El id de la página debe indicarse",
+  }),
+});
+
 const searchByCategoryValidation = Joi.object().keys({
  category: Joi.string().empty().min(1).required().messages({
   "string.base": "La categoría debe ser un texto.",
@@ -170,5 +180,6 @@ export default {
   pageForPageValidation,
   searchPageValidation,
   deletePageValidation,
-  searchByCategoryValidation
+  searchByCategoryValidation,
+  getByIdPageValidation
 }
