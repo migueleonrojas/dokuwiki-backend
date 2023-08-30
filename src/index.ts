@@ -12,7 +12,13 @@ const PORT = process.env.PORT || 8080;
 app.use(cors({
   origin: "*",
 }));
+/* 
+  app.use(express.static('d:/INETPUB/wwwroot/dokuwiki-backend/dist/images'));
+  app.use(express.static('d:/INETPUB/wwwroot/dokuwiki-backend/dist/files'));
+  EN EL SERVIDOR ESTA ASI
+*/
 app.use(express.static(path.join(path.resolve(__dirname, 'images')).replace(/\\/g,'/')));
+app.use(express.static(path.join(path.resolve(__dirname, 'files')).replace(/\\/g,'/')));
 app.use(fileUpload());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
