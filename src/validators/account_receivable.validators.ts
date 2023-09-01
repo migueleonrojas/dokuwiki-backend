@@ -39,10 +39,10 @@ const createAccountReceivableValidation = Joi.object().keys({
     "string.max": "El número de cuenta bancaria debe tener 30 caracteres como máximo",
     "any.required": "El número de cuenta bancaria debe indicarse",
   }),
-  bill_number: Joi.string().empty().max(100).required().messages({
+  bill_number: Joi.string().empty().max(500).required().messages({
     "any.base": "El número de factura debe ser un texto.",
     "string.empty": "El número de factura no puede estar vacio.",
-    "string.max": "El número de factura debe tener 100 caracteres como máximo",
+    "string.max": "El número de factura debe tener 500 caracteres como máximo",
     "any.required": "El número de factura debe indicarse",
   }),
   amount: Joi.number().empty().required().messages({
@@ -54,6 +54,10 @@ const createAccountReceivableValidation = Joi.object().keys({
     "any.base": "La fecha de la transacción debe ser un texto.",
     "string.empty": "La fecha de la transacción no puede estar vacio.",
     "any.required": "La fecha de la transacción debe indicarse",
+  }),
+  date_payment_record: Joi.string().required().optional().messages({
+    "any.base": "La fecha del registro de pago debe ser un texto.",
+    "any.required": "La fecha del registro de pago debe indicarse",
   }),
   reference_number: Joi.string().empty().max(20).required().messages({
     "any.base": "El número de referencia debe ser un texto.",
@@ -75,6 +79,9 @@ const createAccountReceivableValidation = Joi.object().keys({
     "number.base": "El monto del islr debe ser un número.",
     
   }),
+  municipal_amount: Joi.number().allow(0).messages({
+    "number.base": "El monto del islr debe ser un número.",
+  }),
   url_file_iva: Joi.string().max(150).allow('').messages({
     "any.base": "La url del archivo adjunto del iva debe ser un texto.",
     "string.max": "La url del archivo adjunto del iva debe tener 150 caracteres como máximo",
@@ -84,11 +91,59 @@ const createAccountReceivableValidation = Joi.object().keys({
     "any.base": "La url del archivo adjunto del islr debe ser un texto.",
     "string.max": "La url del archivo adjunto del islr debe tener 150 caracteres como máximo",
   }),
+  url_file_municipal: Joi.string().max(150).allow('').messages({
+    "any.base": "La url del archivo adjunto del comprobante municipal debe ser un texto.",
+    "string.max": "La url del archivo adjunto del comprobante municipal debe tener 150 caracteres como máximo",
+  }),
+  url_file_proof_of_payment: Joi.string().max(150).allow('').messages({
+    "any.base": "La url del archivo adjunto del islr debe ser un texto.",
+    "string.max": "La url del archivo adjunto del islr debe tener 150 caracteres como máximo",
+  }),
 
 
 })
 
 const createFileValidation = Joi.object().keys({
+  file_proof_of_payment: Joi.object().keys({
+    name: Joi.string().required().messages({
+      "string.base": "El nombre del archivo debe ser un texto.",
+      "any.required": "El nombre del archivo debe indicarse.",
+    }),
+    data: Joi.binary().required().max(5242880).messages({
+      "binary.base": "La data del archivo debe ser un archivo.",
+      "any.required": "La data del archivo debe indicarse.",
+      "binary.max": "El tamaño máximo del archivo debe ser 5 Mb" 
+    }),
+    size: Joi.number().max(5242880).required().messages({
+      "number.base": "El tamaño de la imagen debe ser un número.",
+      "number.max": "El tamaño máximo de la imagen debe ser 5 Mb",
+      "any.required": "El tamaño de la imagen debe indicarse.",
+    }),
+    encoding: Joi.string().required().messages({
+      "string.base": "La codificación debe ser un texto.",
+      "any.required": "La codificación debe indicarse.",
+    }),
+    tempFilePath: Joi.string().optional().allow('').messages({
+      "string.base": "La ruta temporal del archivo debe ser un texto.",
+    }),
+    truncated: Joi.bool().required().messages({
+      "bool.base": "El valor del truncado debe ser un booleano",
+      "any.required": "El valor del truncado debe indicarse",
+    }),
+    mimetype: Joi.string().valid('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf').required().messages({
+      "string.base": "El tipo de archivo debe ser un texto.",
+      "any.only": "El tipo de archivo debe ser una imagen: jpeg, jpg, png, gif o pdf.",
+      "any.required": "El tipo de archivo debe indicarse",
+    }),
+    md5: Joi.string().required().messages({
+      "string.base": "El md5 debe ser un texto.",
+      "any.required": "El md5 debe indicarse",
+    }),
+    mv: Joi.function().required().messages({
+      "any.required": "El mv debe indicarse",
+      "function.base": "El mv debe indicarse"
+    })
+  }),
   file_iva: Joi.object().keys({
     name: Joi.string().required().messages({
       "string.base": "El nombre del archivo debe ser un texto.",
@@ -169,16 +224,64 @@ const createFileValidation = Joi.object().keys({
       "function.base": "El mv debe indicarse"
     })
   }),
+  file_municipal: Joi.object().keys({
+    name: Joi.string().required().messages({
+      "string.base": "El nombre del archivo debe ser un texto.",
+      "any.required": "El nombre del archivo debe indicarse.",
+    }),
+    data: Joi.binary().required().max(5242880).messages({
+      "binary.base": "La data del archivo debe ser un archivo.",
+      "any.required": "La data del archivo debe indicarse.",
+      "binary.max": "El tamaño máximo del archivo debe ser 5 Mb" 
+    }),
+    size: Joi.number().max(5242880).required().messages({
+      "number.base": "El tamaño de la imagen debe ser un número.",
+      "number.max": "El tamaño máximo de la imagen debe ser 5 Mb",
+      "any.required": "El tamaño de la imagen debe indicarse.",
+    }),
+    encoding: Joi.string().required().messages({
+      "string.base": "La codificación debe ser un texto.",
+      "any.required": "La codificación debe indicarse.",
+    }),
+    tempFilePath: Joi.string().optional().allow('').messages({
+      "string.base": "La ruta temporal del archivo debe ser un texto.",
+    }),
+    truncated: Joi.bool().required().messages({
+      "bool.base": "El valor del truncado debe ser un booleano",
+      "any.required": "El valor del truncado debe indicarse",
+    }),
+    mimetype: Joi.string().valid('image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'application/pdf').required().messages({
+      "string.base": "El tipo de archivo debe ser un texto.",
+      "any.only": "El tipo de archivo debe ser una imagen: jpeg, jpg, png, gif o pdf.",
+      "any.required": "El tipo de archivo debe indicarse",
+    }),
+    md5: Joi.string().required().messages({
+      "string.base": "El md5 debe ser un texto.",
+      "any.required": "El md5 debe indicarse",
+    }),
+    mv: Joi.function().required().messages({
+      "any.required": "El mv debe indicarse",
+      "function.base": "El mv debe indicarse"
+    })
+  }),
+
 
 });
 
 const searchByRifAccountReceivableValidation = Joi.object().keys({
-  rif: Joi.string().empty().min(1).required().messages({
-    "string.base": "El valor de la busqueda debe ser un texto.",
-    "string.empty": "El valor de la busqueda no puede estar vacio.",
-    "string.min": "El valor de la busqueda debe tener un o más caracteres.",
-    "any.required": "El valor de la busqueda debe indicarse.",
-  })
+  date_payment_record_start: Joi.string().empty().min(8).required().messages({
+    "string.base": "La fecha de inicio de la busqueda debe ser un texto.",
+    "string.empty": "La fecha de inicio de la busqueda no puede estar vacio.",
+    "string.min": "La fecha de inicio de la busqueda debe tener el formato yyyyMMdd = 20230602",
+    "any.required": "La fecha de inicio de la busqueda debe indicarse.",
+  }),
+  date_payment_record_end: Joi.string().empty().min(8).required().messages({
+    "string.base": "La fecha de fin de la busqueda debe ser un texto.",
+    "string.empty": "La fecha de fin de la busqueda no puede estar vacio.",
+    "string.min": "La fecha de fin de la busqueda debe tener el formato yyyyMMdd = 20230602",
+    "any.required": "La fecha de fin de la busqueda debe indicarse.",
+  }),
+
 });
 
 export default {

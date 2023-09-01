@@ -41,7 +41,7 @@ const AccountReceivable = sequelizeConnect.sequelize.define("AccountReceivable",
   },
   bill_number:{
     type: DataTypes.STRING({
-      length: 100
+      length: 500
     }),
     allowNull:false
   },
@@ -50,6 +50,10 @@ const AccountReceivable = sequelizeConnect.sequelize.define("AccountReceivable",
     allowNull:false
   },
   date_transaction:{
+    type: DataTypes.STRING,
+    allowNull:false
+  },
+  date_payment_record: {
     type: DataTypes.STRING,
     allowNull:false
   },
@@ -73,6 +77,16 @@ const AccountReceivable = sequelizeConnect.sequelize.define("AccountReceivable",
     type: DataTypes.BIGINT,
     allowNull: false
   },
+  municipal_amount: {
+    type: DataTypes.BIGINT,
+    allowNull: false
+  },
+  url_file_proof_of_payment:{
+    type: DataTypes.STRING({
+      length: 150
+    }),
+    allowNull:false
+  },
   url_file_iva:{
     type: DataTypes.STRING({
       length: 150
@@ -84,7 +98,13 @@ const AccountReceivable = sequelizeConnect.sequelize.define("AccountReceivable",
       length: 150
     }),
     allowNull:false
-  }
+  },
+  url_file_municipal:{
+    type: DataTypes.STRING({
+      length: 150
+    }),
+    allowNull:false
+  },
 
 },
 {

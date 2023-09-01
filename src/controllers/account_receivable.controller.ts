@@ -27,7 +27,7 @@ const createAccountReceivableController = async (req: any, res: any) => {
 
     res.status(200).json({
       status: 200,
-      message: 'Pago registrado con exito',
+      message: `Su estado de cuenta sera actualizado una vez validado el pago`,
       accountReceivableService: accountReceivable
     })
 
@@ -43,7 +43,7 @@ const createAccountReceivableController = async (req: any, res: any) => {
 const getAccountsReceivableByRifController = async (req:any, res:any) => {
   try{
 
-    let accountReceivableResult = await accountReceivableService.getAccountsReceivableByRifService(req.query.rif);
+    let accountReceivableResult = await accountReceivableService.getAccountsReceivableByRifService(req.query.date_payment_record_start, req.query.date_payment_record_end);
 
     return res.status(200).json({
       status: 200,
