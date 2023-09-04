@@ -18,13 +18,16 @@ const createFilesService = async (files: any) => {
     }
 
     let arrayFiles = Object.entries(files);
+    let idImage: string = new Date().getTime().toString();
 
     arrayFiles.forEach((elemFile:any) => {
-      let nameFile:string = `${moment().format('YYYY-MM-DD HH-mm-ss-SSS')}_${uuidv1()}_${elemFile[1].name}`
+      let nameFile:string = `${idImage}_${elemFile[1].name}`
+
       fs.appendFile(`${rootPathApp}/${nameFile}`, elemFile[1].data, () => {
       
       });
       if(elemFile[0] === 'file_iva'){
+        
         objectFiles.file_iva = `http://localhost:${PORT}/${nameFile}`;
       }
       else if(elemFile[0] === 'file_islr'){
