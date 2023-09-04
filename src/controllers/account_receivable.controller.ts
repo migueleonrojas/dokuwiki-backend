@@ -47,7 +47,7 @@ const getAccountsReceivableByRifController = async (req:any, res:any) => {
 
     return res.status(200).json({
       status: 200,
-      message: 'Resultado de la busqueda de las páginas',
+      message: 'Resultado de la busqueda de los Pagos',
       accountReceivables: accountReceivableResult,
       
     });
