@@ -1,3 +1,4 @@
+import express from "express";
 import accountsReceivableModel from "../models/accounts_receivable.model";
 import path from 'path';
 import fs from 'fs';
@@ -18,26 +19,33 @@ const createFilesService = async (files: any) => {
     }
 
     let arrayFiles = Object.entries(files);
-    let idImage: string = new Date().getTime().toString();
-
+    
     arrayFiles.forEach((elemFile:any) => {
-      let nameFile:string = `${idImage}_${elemFile[1].name}`
-
-      fs.appendFile(`${rootPathApp}/${nameFile}`, elemFile[1].data, () => {
       
-      });
+      let idImage: string = new Date().getTime().toString();
       if(elemFile[0] === 'file_iva'){
         
-        objectFiles.file_iva = `http://localhost:${PORT}/${nameFile}`;
+        fs.appendFile(`${rootPathApp}/${idImage}_${'file_iva'}_${elemFile[1].name}`, elemFile[1].data, () => {});
+        
+        objectFiles.file_iva = `http://localhost:${PORT}/${idImage}_${'file_iva'}_${elemFile[1].name}`;
       }
       else if(elemFile[0] === 'file_islr'){
-        objectFiles.file_islr = `http://localhost:${PORT}/${nameFile}`;
+
+        fs.appendFile(`${rootPathApp}/${idImage}_${'file_islr'}_${elemFile[1].name}`, elemFile[1].data, () => {});
+
+        objectFiles.file_islr = `http://localhost:${PORT}/${idImage}_${'file_islr'}_${elemFile[1].name}`;
       }
       else if(elemFile[0] === 'file_municipal'){
-        objectFiles.file_municipal = `http://localhost:${PORT}/${nameFile}`;
+        
+        fs.appendFile(`${rootPathApp}/${idImage}_${'file_municipal'}_${elemFile[1].name}`, elemFile[1].data, () => {});
+
+        objectFiles.file_municipal = `http://localhost:${PORT}/${idImage}_${'file_municipal'}_${elemFile[1].name}`;
       }
       else if(elemFile[0] === 'file_proof_of_payment'){
-        objectFiles.file_proof_payment = `http://localhost:${PORT}/${nameFile}`;
+        
+        fs.appendFile(`${rootPathApp}/${idImage}_${'file_proof_of_payment'}_${elemFile[1].name}`, elemFile[1].data, () => {});
+
+        objectFiles.file_proof_payment = `http://localhost:${PORT}/${idImage}_${'file_proof_of_payment'}_${elemFile[1].name}`;
       }
     });
     
