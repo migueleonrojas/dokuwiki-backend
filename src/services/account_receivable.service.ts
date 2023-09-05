@@ -80,6 +80,7 @@ const createAccountReceivableService = async (query: any = {}) => {
       iva_amount: query.body.iva_amount,
       islr_amount: query.body.islr_amount,
       municipal_amount: query.body.municipal_amount,
+      comments: query.body.comments,
       url_file_proof_of_payment: query.body.url_file_proof_of_payment,
       url_file_iva: query.body.url_file_iva,
       url_file_islr: query.body.url_file_islr,

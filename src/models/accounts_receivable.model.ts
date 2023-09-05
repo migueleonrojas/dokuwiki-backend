@@ -105,6 +105,13 @@ const AccountReceivable = sequelizeConnect.sequelize.define("AccountReceivable",
     }),
     allowNull:false
   },
+  comments: {
+    type: DataTypes.STRING({
+      length: 500
+    }),
+    allowNull:false
+  }
+
 
 },
 {

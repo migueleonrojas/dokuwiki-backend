@@ -99,6 +99,10 @@ const createAccountReceivableValidation = Joi.object().keys({
     "any.base": "La url del archivo adjunto del islr debe ser un texto.",
     "string.max": "La url del archivo adjunto del islr debe tener 150 caracteres como máximo",
   }),
+  comments: Joi.string().max(500).allow('').messages({
+    "any.base": "El comentario debe ser un texto.",
+    "string.max": "El comentario debe tener 500 caracteres como máximo",
+  })
 
 
 })
