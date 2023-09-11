@@ -29,7 +29,7 @@ const AccountReceivable = sequelizeConnect.sequelize.define("AccountReceivable",
   },
   type_currency:{
     type: DataTypes.STRING({
-      length: 5
+      length: 10
     }),
     allowNull:false
   },

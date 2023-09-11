@@ -21,10 +21,10 @@ const createAccountReceivableValidation = Joi.object().keys({
     "string.max": "El nombre del cliente debe tener 150 caracteres como máximo",
     "any.required": "El nombre del cliente debe indicarse",
   }),
-  type_currency: Joi.string().empty().max(5).required().messages({
+  type_currency: Joi.string().empty().max(10).required().messages({
     "any.base": "El tipo de moneda debe ser un texto.",
     "string.empty": "El tipo de moneda no puede estar vacio.",
-    "string.max": "El tipo de moneda debe tener 5 caracteres como máximo",
+    "string.max": "El tipo de moneda debe tener 10 caracteres como máximo",
     "any.required": "El tipo de moneda debe indicarse",
   }),
   type_payment: Joi.string().empty().max(20).required().messages({
