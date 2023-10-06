@@ -81,6 +81,7 @@ const createAccountReceivableService = async (query: any = {}) => {
       islr_amount: query.body.islr_amount,
       municipal_amount: query.body.municipal_amount,
       comments: query.body.comments,
+      email: query.body.email,
       url_file_proof_of_payment: query.body.url_file_proof_of_payment,
       url_file_iva: query.body.url_file_iva,
       url_file_islr: query.body.url_file_islr,
@@ -112,10 +113,6 @@ const getAccountsReceivableByRifService = async (start_date: string = "", end_da
     let start:string =  moment(start_date).format('YYYY-MM-DDTHH:mm:ss.SSS');
     let end: string = moment(end_date).add(24, 'hours').format('YYYY-MM-DDTHH:mm:ss.SSS')
 
-    console.log({
-      start,
-      end
-    })
 
     const accountsReceivableResponse = await accountsReceivableModel.AccountReceivable.findAll({
       order:[

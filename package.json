@@ -19,6 +19,7 @@
     "moment": "^2.29.4",
     "mssql": "^9.1.1",
     "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.5",
     "nodemon": "^2.0.22",
     "sequelize": "^6.32.0",
     "tedious": "^16.1.0"
@@ -31,6 +32,7 @@
     "@types/express-fileupload": "^1.4.1",
     "@types/mssql": "^8.1.2",
     "@types/multer": "^1.4.7",
+    "@types/nodemailer": "^6.4.11",
     "@types/sequelize": "^4.28.15",
     "@types/uuid": "^9.0.2",
     "momment": "^0.0.1",

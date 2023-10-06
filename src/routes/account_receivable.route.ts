@@ -23,6 +23,12 @@ routerAccountReceivable.post(
   accountReceivableController.createAccountReceivableController
 );
 
+routerAccountReceivable.post(
+  "/create-account-receivable-tdic",
+  validationBodySchemaMiddleware.validateBodySchema(accountReceivablValidators.createAccountReceivableTDCIValidation),
+  accountReceivableController.createAccountReceivableController
+);
+
 
 routerAccountReceivable.get(
   "/search-account-receivable-by-rif",

@@ -110,6 +110,12 @@ const AccountReceivable = sequelizeConnect.sequelize.define("AccountReceivable",
       length: 500
     }),
     allowNull:false
+  },
+  email: {
+    type: DataTypes.STRING({
+      length: 200
+    }),
+    allowNull: false
   }
 
 

@@ -102,10 +102,120 @@ const createAccountReceivableValidation = Joi.object().keys({
   comments: Joi.string().max(500).allow('').messages({
     "any.base": "El comentario debe ser un texto.",
     "string.max": "El comentario debe tener 500 caracteres como máximo",
-  })
+  }),
+  email: Joi.string().max(200).allow('').messages({
+    "any.base": "El correo debe ser un texto.",
+    "string.max": "El correo debe tener 200 caracteres como máximo",
+  }),
 
 
-})
+});
+
+
+const createAccountReceivableTDCIValidation = Joi.object().keys({
+  id: Joi.number().empty().min(0).max(2^53).required().messages({
+    "number.base": "El id debe ser un número.",
+    "number.empty": "El id no puede estar vacio.",
+    "any.required": "El id debe indicarse.",
+    "number.min": "El id debe ser mayor que 0",
+    "number.max": "El id debe ser menor que 999.999.999.999.999.999"
+  }),
+  client_id: Joi.string().empty().max(20).required().messages({
+    "any.base": "El rif o la cedula debe ser un texto.",
+    "string.empty": "El rif o la cedula no puede estar vacio.",
+    "string.max": "El rif o la cedula debe tener 20 caracteres como máximo",
+    "any.required": "El rif o la cedula debe indicarse",
+  }),
+  client_name: Joi.string().empty().max(150).required().messages({
+    "any.base": "El nombre del cliente debe ser un texto.",
+    "string.empty": "El nombre del cliente no puede estar vacio.",
+    "string.max": "El nombre del cliente debe tener 150 caracteres como máximo",
+    "any.required": "El nombre del cliente debe indicarse",
+  }),
+  type_currency: Joi.string().empty().max(10).required().messages({
+    "any.base": "El tipo de moneda debe ser un texto.",
+    "string.empty": "El tipo de moneda no puede estar vacio.",
+    "string.max": "El tipo de moneda debe tener 10 caracteres como máximo",
+    "any.required": "El tipo de moneda debe indicarse",
+  }),
+  type_payment: Joi.string().empty().max(20).required().messages({
+    "any.base": "El metodo de pago debe ser un texto.",
+    "string.empty": "El metodo de pago no puede estar vacio.",
+    "string.max": "El metodo de pago debe tener 5 caracteres como máximo",
+    "any.required": "El metodo de pago debe indicarse",
+  }),
+  bank: Joi.string().empty().max(30).optional().allow('').messages({
+    "any.base": "El número de cuenta bancaria debe ser un texto.",
+    "string.empty": "El número de cuenta bancaria no puede estar vacio.",
+    "string.max": "El número de cuenta bancaria debe tener 30 caracteres como máximo",
+    "any.required": "El número de cuenta bancaria debe indicarse",
+  }),
+  bill_number: Joi.string().empty().max(500).optional().allow('').messages({
+    "any.base": "El número de factura debe ser un texto.",
+    "string.empty": "El número de factura no puede estar vacio.",
+    "string.max": "El número de factura debe tener 500 caracteres como máximo",
+    "any.required": "El número de factura debe indicarse",
+  }),
+  amount: Joi.number().empty().required().messages({
+    "number.base": "El monto debe ser un número.",
+    "number.empty": "El monto no puede estar vacio.",
+    "any.required": "El monto debe indicarse.",
+  }),
+  date_transaction: Joi.string().optional().messages({
+    "any.base": "La fecha de la transacción debe ser un texto.",
+    "any.required": "La fecha de la transacción debe indicarse",
+  }),
+  date_payment_record: Joi.string().required().optional().messages({
+    "any.base": "La fecha del registro de pago debe ser un texto.",
+    "any.required": "La fecha del registro de pago debe indicarse",
+  }),
+  reference_number: Joi.string().max(20).optional().allow('').messages({
+    "any.base": "El número de referencia debe ser un texto.",
+    "string.max": "El número de referencia debe tener 20 caracteres como máximo",
+  }),
+  withholdings: Joi.string().max(2).optional().allow('').messages({
+    "any.base": "Las retenciones debe ser un texto.",
+    "string.max": "Las retenciones debe tener 2 caracteres como máximo",
+    "any.required": "Las retenciones debe indicarse",
+  }),
+  iva_amount: Joi.number().allow(0).optional().messages({
+    "number.base": "El monto del iva debe ser un número.",
+  }),
+  islr_amount: Joi.number().allow(0).optional().messages({
+    "number.base": "El monto del islr debe ser un número.",
+  }),
+  municipal_amount: Joi.number().allow(0).optional().messages({
+    "number.base": "El monto del islr debe ser un número.",
+  }),
+  url_file_iva: Joi.string().max(150).optional().allow('').messages({
+    "any.base": "La url del archivo adjunto del iva debe ser un texto.",
+    "string.max": "La url del archivo adjunto del iva debe tener 150 caracteres como máximo",
+  }),
+  url_file_islr: Joi.string().max(150).optional().allow('').messages({
+    "any.base": "La url del archivo adjunto del islr debe ser un texto.",
+    "string.max": "La url del archivo adjunto del islr debe tener 150 caracteres como máximo",
+  }),
+  url_file_municipal: Joi.string().max(150).optional().allow('').messages({
+    "any.base": "La url del archivo adjunto del comprobante municipal debe ser un texto.",
+    "string.max": "La url del archivo adjunto del comprobante municipal debe tener 150 caracteres como máximo",
+  }),
+  url_file_proof_of_payment: Joi.string().max(150).optional().allow('').messages({
+    "any.base": "La url del archivo adjunto del islr debe ser un texto.",
+    "string.max": "La url del archivo adjunto del islr debe tener 150 caracteres como máximo",
+  }),
+  comments: Joi.string().max(500).optional().allow('').messages({
+    "any.base": "El comentario debe ser un texto.",
+    "string.max": "El comentario debe tener 500 caracteres como máximo",
+  }),
+  email: Joi.string().max(200).required().empty().messages({
+    "any.base": "El correo debe ser un texto.",
+    "string.max": "El correo debe tener 200 caracteres como máximo",
+    "any.required": "El correo debe indicarse",
+    "string.empty": "El correo no puede estar vacio.",
+  }),
+
+});
+
 
 const createFileValidation = Joi.object().keys({
   file_proof_of_payment: Joi.object().keys({
@@ -291,5 +401,6 @@ const searchByRifAccountReceivableValidation = Joi.object().keys({
 export default {
   createFileValidation,
   createAccountReceivableValidation,
+  createAccountReceivableTDCIValidation,
   searchByRifAccountReceivableValidation
 }
